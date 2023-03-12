@@ -2,6 +2,12 @@ package transactions
 
 import "github.com/steve-care-software/libs/cryptography/hash"
 
+// NewBodyBuilder creates a new body builder instance
+func NewBodyBuilder() BodyBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createBodyBuilder(hashAdapter)
+}
+
 // Builder represents a transactions builder
 type Builder interface {
 	Create() Builder
