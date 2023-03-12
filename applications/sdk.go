@@ -14,6 +14,9 @@ const (
 
 	// KindGenesis represents a genesis kind
 	KindGenesis
+
+	// KindBlock represents a block kind
+	KindBlock
 )
 
 // Application represents the blockchain application

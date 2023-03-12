@@ -2,7 +2,9 @@ package databases
 
 import (
 	application_identity "github.com/steve-care-software/blockchains/applications/identities"
+	"github.com/steve-care-software/blockchains/domain/chains/blocks"
 	"github.com/steve-care-software/blockchains/domain/chains/genesis"
+	"github.com/steve-care-software/blockchains/domain/chains/transactions"
 	"github.com/steve-care-software/blockchains/domain/identities"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"
@@ -10,6 +12,36 @@ import (
 
 const identityList = "identity:list"
 const identityListDeleted = "identity:list:deleted"
+
+// NewBlockServiceBuilder creates a new block service builder
+func NewBlockServiceBuilder(
+	database database_application.Application,
+	repository blocks.Repository,
+	trxService transactions.Service,
+) blocks.ServiceBuilder {
+	return createBlockServiceBuilder(
+		database,
+		repository,
+		trxService,
+	)
+}
+
+// NewBlockRepositoryBuilder creates a new block repository builder
+func NewBlockRepositoryBuilder(
+	trxRepositoryBuilder transactions.RepositoryBuilder,
+	database database_application.Application,
+) blocks.RepositoryBuilder {
+	hashAdapter := hash.NewAdapter()
+	builder := blocks.NewBuilder()
+	bodyBuilder := blocks.NewBodyBuilder()
+	return createBlockRepositoryBuilder(
+		hashAdapter,
+		trxRepositoryBuilder,
+		database,
+		builder,
+		bodyBuilder,
+	)
+}
 
 // NewGenesisServiceBuilder creates a new genesis service builder
 func NewGenesisServiceBuilder(

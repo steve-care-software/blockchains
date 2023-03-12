@@ -41,7 +41,6 @@ func (app *genesisService) Insert(genesis genesis.Genesis) error {
 	}
 
 	ins := objects.Genesis{
-		Hash:           hash.String(),
 		Difficulty:     genesis.Difficulty(),
 		Reward:         genesis.Reward(),
 		Halving:        genesis.Halving(),
@@ -58,7 +57,7 @@ func (app *genesisService) Insert(genesis genesis.Genesis) error {
 
 	return app.database.Write(
 		app.context,
-		applications.KindIdentity,
+		applications.KindGenesis,
 		hash,
 		js,
 	)

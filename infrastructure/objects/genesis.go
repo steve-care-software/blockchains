@@ -4,7 +4,6 @@ import "time"
 
 // Genesis represents a genesis
 type Genesis struct {
-	Hash           string        `json:"hash"`
 	Difficulty     uint          `json:"difficulty"`
 	Reward         uint          `json:"reward"`
 	Halving        uint          `json:"halving"`
