@@ -20,5 +20,6 @@ type Builder interface {
 type Application interface {
 	List() ([]hash.Hash, error)
 	Insert(trx transactions.Transaction) error
+	InsertList(list []transactions.Transaction) error
 	Retrieve(hash hash.Hash) (transactions.Transaction, error)
 }
