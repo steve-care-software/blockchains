@@ -2,7 +2,7 @@ package wallets
 
 import (
 	"github.com/steve-care-software/blockchains/domain/chains"
-	"github.com/steve-care-software/blockchains/domain/wallets"
+	"github.com/steve-care-software/blockchains/domain/chains/wallets"
 )
 
 // Builder represents the wallet's application builder

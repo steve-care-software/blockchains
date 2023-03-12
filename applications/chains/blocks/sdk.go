@@ -3,7 +3,7 @@ package blocks
 import (
 	"github.com/steve-care-software/blockchains/domain/chains"
 	"github.com/steve-care-software/blockchains/domain/chains/blocks"
-	"github.com/steve-care-software/blockchains/domain/transactions"
+	"github.com/steve-care-software/blockchains/domain/chains/transactions"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 

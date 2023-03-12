@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/steve-care-software/blockchains/domain/transactions"
+	"github.com/steve-care-software/blockchains/domain/chains/transactions"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
