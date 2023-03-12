@@ -26,3 +26,28 @@ type Chain interface {
 	HasHead() bool
 	Head() blocks.Block
 }
+
+// RepositoryBuilder represents a repository builder
+type RepositoryBuilder interface {
+	Create() RepositoryBuilder
+	WithContext(context uint) RepositoryBuilder
+	Now() (Repository, error)
+}
+
+// Repository represents a chain repository
+type Repository interface {
+	List() ([]string, error)
+	Retrieve(name string) (Chain, error)
+}
+
+// ServiceBuilder represents a service builder
+type ServiceBuilder interface {
+	Create() ServiceBuilder
+	WithContext(context uint) ServiceBuilder
+	Now() (Service, error)
+}
+
+// Service represents a chain service
+type Service interface {
+	Insert(chain Chain) error
+}
