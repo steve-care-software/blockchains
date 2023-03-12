@@ -5,6 +5,11 @@ import (
 	"github.com/steve-care-software/blockchains/domain/chains/genesis"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	return createBuilder()
+}
+
 // Builder represents a chain builder
 type Builder interface {
 	Create() Builder
