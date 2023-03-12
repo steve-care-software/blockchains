@@ -8,6 +8,12 @@ import (
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
+// NewBuilder creates a new builder
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
 // NewBodyBuilder creates a new body builder instance
 func NewBodyBuilder() BodyBuilder {
 	hashAdapter := hash.NewAdapter()
@@ -27,8 +33,6 @@ type Block interface {
 	Hash() hash.Hash
 	Body() Body
 	Proof() *big.Int
-	Result() hash.Hash
-	Difficulty() uint
 }
 
 // BodyBuilder represents the body builder
