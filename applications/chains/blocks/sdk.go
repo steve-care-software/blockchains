@@ -7,8 +7,11 @@ import (
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
-// ApplicationOnBlockFn represents the application's onBlock func
-type ApplicationOnBlockFn func(block blocks.Block) error
+// EnterOnBlockFn represents the enter's onBlock func
+type EnterOnBlockFn func(block blocks.Block) error
+
+// ExitOnBlockFn represents the exit's onBlock func
+type ExitOnBlockFn func(block blocks.Block) error
 
 // Builder represents the block application builder
 type Builder interface {
