@@ -2,6 +2,18 @@ package transactions
 
 import "github.com/steve-care-software/libs/cryptography/hash"
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
+// NewTransactionBuilder creates a new transaction builder
+func NewTransactionBuilder() TransactionBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createTransactionBuilder(hashAdapter)
+}
+
 // NewBodyBuilder creates a new body builder instance
 func NewBodyBuilder() BodyBuilder {
 	hashAdapter := hash.NewAdapter()
