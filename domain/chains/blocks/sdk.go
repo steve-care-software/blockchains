@@ -8,6 +8,12 @@ import (
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
+// NewBodyBuilder creates a new body builder instance
+func NewBodyBuilder() BodyBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createBodyBuilder(hashAdapter)
+}
+
 // Builder represents a block builder
 type Builder interface {
 	Create() Builder
@@ -42,5 +48,5 @@ type Body interface {
 	Transactions() transactions.Transactions
 	CreatedOn() time.Time
 	HasParent() bool
-	Parent() hash.Hash
+	Parent() *hash.Hash
 }
