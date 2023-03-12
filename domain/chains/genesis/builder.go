@@ -122,7 +122,16 @@ func (app *builder) Now() (Genesis, error) {
 		return nil, errors.New("the creationTime's timestamp must be greater than zero (0) in order to build a Genesis instance")
 	}
 
-	pHash, err := app.hashAdapter.FromMultiBytes([][]byte{})
+	pHash, err := app.hashAdapter.FromMultiBytes([][]byte{
+		[]byte(fmt.Sprintf("%d", app.difficulty)),
+		[]byte(fmt.Sprintf("%d", app.reward)),
+		[]byte(fmt.Sprintf("%d", app.halving)),
+		[]byte(fmt.Sprintf("%d", *app.pMiningValue)),
+		[]byte(fmt.Sprintf("%d", app.maxTrxPerBlock)),
+		[]byte(fmt.Sprintf("%d", app.blockDuration)),
+		[]byte(fmt.Sprintf("%d", app.pCreatedOn.Unix())),
+	})
+
 	if err != nil {
 		return nil, err
 	}
