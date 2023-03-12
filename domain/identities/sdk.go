@@ -1,6 +1,8 @@
 package identities
 
-import "time"
+import (
+	"time"
+)
 
 // NewBuilder creates a new builder instance
 func NewBuilder() Builder {
@@ -23,4 +25,32 @@ type Identity interface {
 	Private() []byte
 	Public() []byte
 	CreatedOn() time.Time
+}
+
+// RepositoryBuilder represents a repository builder
+type RepositoryBuilder interface {
+	Create() RepositoryBuilder
+	WithContext(context uint) RepositoryBuilder
+	Now() (Repository, error)
+}
+
+// Repository represents the identity repository
+type Repository interface {
+	List() ([]string, error)
+	ListDeleted() ([]string, error)
+	Retrieve(name string, password []byte) (Identity, error)
+}
+
+// ServiceBuilder represents a service builder
+type ServiceBuilder interface {
+	Create() ServiceBuilder
+	WithContext(context uint) ServiceBuilder
+	Now() (Service, error)
+}
+
+// Service represents the identity service
+type Service interface {
+	Insert(identity Identity, password []byte) error
+	Update(name string, updated Identity, originalPassword []byte, newPassword []byte) error
+	Delete(identity Identity, password []byte) error
 }

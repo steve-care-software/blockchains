@@ -6,7 +6,6 @@ import "github.com/steve-care-software/blockchains/domain/identities"
 type Application interface {
 	List() ([]string, error)
 	Insert(identity identities.Identity, password []byte) error
-	Update(name string, updated identities.Identity, originalPassword []byte, newPassword []byte)
+	Update(name string, updated identities.Identity, originalPassword []byte, newPassword []byte) error
 	Retrieve(name string, password []byte) (identities.Identity, error)
-	Delete(name string, password []byte) error
 }
