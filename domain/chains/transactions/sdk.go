@@ -69,6 +69,7 @@ type Body interface {
 type RepositoryBuilder interface {
 	Create() RepositoryBuilder
 	WithContext(context uint) RepositoryBuilder
+	WithKind(kind uint) RepositoryBuilder
 	Now() (Repository, error)
 }
 
@@ -83,6 +84,7 @@ type Repository interface {
 type ServiceBuilder interface {
 	Create() ServiceBuilder
 	WithContext(context uint) ServiceBuilder
+	WithKind(kind uint) ServiceBuilder
 	Now() (Service, error)
 }
 

@@ -20,6 +20,9 @@ const (
 
 	// KindChain represents a chain kind
 	KindChain
+
+	// KindTransaction represents a transaction kind
+	KindTransaction
 )
 
 // Application represents the blockchain application

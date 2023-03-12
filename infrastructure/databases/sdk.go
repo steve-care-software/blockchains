@@ -17,6 +17,34 @@ const identityListDeleted = "identity:list:deleted"
 const chainList = "chain:list"
 const chainByName = "chain:by_name:%s"
 
+// NewTransactionServiceBuilder creates a new transaction service builder
+func NewTransactionServiceBuilder(
+	database database_application.Application,
+	repositoryBuilder transactions.RepositoryBuilder,
+) transactions.ServiceBuilder {
+	return createTransactionServiceBuilder(
+		database,
+		repositoryBuilder,
+	)
+}
+
+// NewTransactionRepositoryBuilder creates a new transaction repository builder
+func NewTransactionRepositoryBuilder(
+	database database_application.Application,
+) transactions.RepositoryBuilder {
+	hashAdapter := hash.NewAdapter()
+	builder := transactions.NewBuilder()
+	trxBuilder := transactions.NewTransactionBuilder()
+	bodyBuilder := transactions.NewBodyBuilder()
+	return createTransactionRepositoryBuilder(
+		hashAdapter,
+		database,
+		builder,
+		trxBuilder,
+		bodyBuilder,
+	)
+}
+
 // NewChainServiceBuilder creates a new chain service builder
 func NewChainServiceBuilder(
 	repositoryBuilder chains.RepositoryBuilder,

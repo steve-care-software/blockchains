@@ -51,7 +51,7 @@ func (app *blockService) Insert(block blocks.Block) error {
 	}
 
 	ins := objects.Block{
-		Body: &objects.Body{
+		Body: &objects.BlockBody{
 			Address:      body.Address(),
 			Transactions: nil,
 			CreatedOn:    body.CreatedOn(),
