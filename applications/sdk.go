@@ -17,6 +17,9 @@ const (
 
 	// KindBlock represents a block kind
 	KindBlock
+
+	// KindChain represents a chain kind
+	KindChain
 )
 
 // Application represents the blockchain application

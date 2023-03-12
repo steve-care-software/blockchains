@@ -2,6 +2,7 @@ package databases
 
 import (
 	application_identity "github.com/steve-care-software/blockchains/applications/identities"
+	"github.com/steve-care-software/blockchains/domain/chains"
 	"github.com/steve-care-software/blockchains/domain/chains/blocks"
 	"github.com/steve-care-software/blockchains/domain/chains/genesis"
 	"github.com/steve-care-software/blockchains/domain/chains/transactions"
@@ -12,6 +13,45 @@ import (
 
 const identityList = "identity:list"
 const identityListDeleted = "identity:list:deleted"
+
+const chainList = "chain:list"
+const chainByName = "chain:by_name:%s"
+
+// NewChainServiceBuilder creates a new chain service builder
+func NewChainServiceBuilder(
+	repositoryBuilder chains.RepositoryBuilder,
+	blockRepositoryBuilder blocks.RepositoryBuilder,
+	genesisRepositoryBuilder genesis.RepositoryBuilder,
+	genesisServiceBuilder genesis.ServiceBuilder,
+	database database_application.Application,
+) chains.ServiceBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createChainServiceBuilder(
+		hashAdapter,
+		repositoryBuilder,
+		blockRepositoryBuilder,
+		genesisRepositoryBuilder,
+		genesisServiceBuilder,
+		database,
+	)
+}
+
+// NewChainRepositoryBuilder creates a new chain repository builder
+func NewChainRepositoryBuilder(
+	genesisRepositoryBuilder genesis.RepositoryBuilder,
+	blockRepositoryBuilder blocks.RepositoryBuilder,
+	database database_application.Application,
+) chains.RepositoryBuilder {
+	hashAdapter := hash.NewAdapter()
+	builder := chains.NewBuilder()
+	return createChainRepositoryBuilder(
+		hashAdapter,
+		genesisRepositoryBuilder,
+		blockRepositoryBuilder,
+		database,
+		builder,
+	)
+}
 
 // NewBlockServiceBuilder creates a new block service builder
 func NewBlockServiceBuilder(
