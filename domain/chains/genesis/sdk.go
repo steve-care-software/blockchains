@@ -6,6 +6,14 @@ import (
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
+const maxMiningValue = 9
+
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
 // Builder represents the genesis builder
 type Builder interface {
 	Create() Builder
@@ -13,10 +21,9 @@ type Builder interface {
 	WithReward(reward uint) Builder
 	WithHalving(halving uint) Builder
 	WithMiningValue(miningValue uint8) Builder
-	WithMinTrxPerBlock(minTrxPerBlock uint) Builder
 	WithMaxTrxPerBlock(maxTrxPerBlock uint) Builder
 	WithBlockDuration(blockDuration time.Duration) Builder
-	WithInitTime(initTime time.Time) Builder
+	CreatedOn(createdOn time.Time) Builder
 	Now() (Genesis, error)
 }
 
@@ -27,8 +34,7 @@ type Genesis interface {
 	Reward() uint
 	Halving() uint
 	MiningValue() uint8
-	MinTrxPerBlock() uint
 	MaxTrxPerBlock() uint
 	BlockDuration() time.Duration
-	InitTime() time.Time
+	CreatedOn() time.Time
 }

@@ -18,5 +18,6 @@ type Builder interface {
 type Chain interface {
 	Name() string
 	Root() genesis.Genesis
+	HasHead() bool
 	Head() blocks.Block
 }
