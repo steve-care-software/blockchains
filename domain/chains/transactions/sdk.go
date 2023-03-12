@@ -64,3 +64,29 @@ type Body interface {
 	Fees() uint
 	Scripts() []hash.Hash
 }
+
+// RepositoryBuilder represents a repository builder
+type RepositoryBuilder interface {
+	Create() RepositoryBuilder
+	WithContext(context uint) RepositoryBuilder
+	Now() (Repository, error)
+}
+
+// Repository represents a transaction repository
+type Repository interface {
+	List() ([]hash.Hash, error)
+	Retrieve(hash hash.Hash) (Transaction, error)
+}
+
+// ServiceBuilder represents a service builder
+type ServiceBuilder interface {
+	Create() ServiceBuilder
+	WithContext(context uint) ServiceBuilder
+	Now() (Service, error)
+}
+
+// Service represents a transaction service
+type Service interface {
+	Insert(trx Transaction) error
+	InsertList(list []Transaction) error
+}

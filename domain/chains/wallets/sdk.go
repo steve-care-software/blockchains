@@ -27,3 +27,15 @@ type Wallet interface {
 	Amount() uint
 	Transactions() transactions.Transactions
 }
+
+// RepositoryBuilder represents a repository builder
+type RepositoryBuilder interface {
+	Create() RepositoryBuilder
+	WithContext(context uint) RepositoryBuilder
+	Now() (Repository, error)
+}
+
+// Repository represents a wallet repository
+type Repository interface {
+	Retrieve(address []byte) (Wallet, error)
+}

@@ -54,3 +54,28 @@ type Body interface {
 	HasParent() bool
 	Parent() *hash.Hash
 }
+
+// RepositoryBuilder represents a repository builder
+type RepositoryBuilder interface {
+	Create() RepositoryBuilder
+	WithContext(context uint) RepositoryBuilder
+	Now() (Repository, error)
+}
+
+// Repository represents a block repository
+type Repository interface {
+	List() ([]hash.Hash, error)
+	Retrieve(hash hash.Hash) (Block, error)
+}
+
+// ServiceBuilder represents a service builder
+type ServiceBuilder interface {
+	Create() ServiceBuilder
+	WithContext(context uint) ServiceBuilder
+	Now() (Service, error)
+}
+
+// Service represents a block service
+type Service interface {
+	Insert(block Block) error
+}

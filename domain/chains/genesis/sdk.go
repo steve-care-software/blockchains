@@ -38,3 +38,27 @@ type Genesis interface {
 	BlockDuration() time.Duration
 	CreatedOn() time.Time
 }
+
+// RepositoryBuilder represents a repository builder
+type RepositoryBuilder interface {
+	Create() RepositoryBuilder
+	WithContext(context uint) RepositoryBuilder
+	Now() (Repository, error)
+}
+
+// Repository represents a genesis repository
+type Repository interface {
+	Retrieve(hash hash.Hash) (Genesis, error)
+}
+
+// ServiceBuilder represents a service builder
+type ServiceBuilder interface {
+	Create() ServiceBuilder
+	WithContext(context uint) ServiceBuilder
+	Now() (Service, error)
+}
+
+// Service represents a genesis service
+type Service interface {
+	Insert(genesis Genesis) error
+}
