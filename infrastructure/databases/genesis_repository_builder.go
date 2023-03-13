@@ -3,7 +3,7 @@ package databases
 import (
 	"errors"
 
-	"github.com/steve-care-software/blockchains/domain/chains/genesis"
+	"github.com/steve-care-software/blockchains/domain/genesis"
 	database_application "github.com/steve-care-software/databases/applications"
 )
 

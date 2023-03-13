@@ -3,7 +3,7 @@ package databases
 import (
 	"errors"
 
-	"github.com/steve-care-software/blockchains/domain/chains/transactions"
+	"github.com/steve-care-software/blockchains/domain/transactions"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )

@@ -1,10 +1,10 @@
-package chains
+package domain
 
 import (
 	"errors"
 
-	"github.com/steve-care-software/blockchains/domain/chains/blocks"
-	"github.com/steve-care-software/blockchains/domain/chains/genesis"
+	"github.com/steve-care-software/blockchains/domain/blocks"
+	"github.com/steve-care-software/blockchains/domain/genesis"
 )
 
 type builder struct {

@@ -5,8 +5,8 @@ import (
 	"github.com/steve-care-software/blockchains/applications/chains/peers"
 	"github.com/steve-care-software/blockchains/applications/chains/transactions"
 	"github.com/steve-care-software/blockchains/applications/chains/wallets"
-	"github.com/steve-care-software/blockchains/domain/chains"
-	"github.com/steve-care-software/blockchains/domain/chains/genesis"
+	chains "github.com/steve-care-software/blockchains/domain"
+	"github.com/steve-care-software/blockchains/domain/genesis"
 )
 
 // Application represents the chain application

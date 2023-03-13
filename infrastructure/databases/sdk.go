@@ -1,12 +1,10 @@
 package databases
 
 import (
-	application_identity "github.com/steve-care-software/blockchains/applications/identities"
-	"github.com/steve-care-software/blockchains/domain/chains"
-	"github.com/steve-care-software/blockchains/domain/chains/blocks"
-	"github.com/steve-care-software/blockchains/domain/chains/genesis"
-	"github.com/steve-care-software/blockchains/domain/chains/transactions"
-	"github.com/steve-care-software/blockchains/domain/identities"
+	chains "github.com/steve-care-software/blockchains/domain"
+	"github.com/steve-care-software/blockchains/domain/blocks"
+	"github.com/steve-care-software/blockchains/domain/genesis"
+	"github.com/steve-care-software/blockchains/domain/transactions"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
@@ -125,32 +123,4 @@ func NewGenesisRepositoryBuilder(
 ) genesis.RepositoryBuilder {
 	builder := genesis.NewBuilder()
 	return createGenesisRepositoryBuilder(database, builder)
-}
-
-// NewIdentityApplication creates a new identity application
-func NewIdentityApplication(
-	repositoryBuilder identities.RepositoryBuilder,
-	serviceBuilder identities.ServiceBuilder,
-	dbName string,
-	database database_application.Application,
-) application_identity.Application {
-	return createIdentityApplication(database, repositoryBuilder, serviceBuilder, dbName)
-}
-
-// NewIdentityServiceBuilder creates a new identity service builder
-func NewIdentityServiceBuilder(
-	repositoryBuilder identities.RepositoryBuilder,
-	database database_application.Application,
-) identities.ServiceBuilder {
-	hashAdapter := hash.NewAdapter()
-	return createIdentityServiceBuilder(hashAdapter, database, repositoryBuilder)
-}
-
-// NewIdentityRepositoryBuilder creates a new identy repository builder
-func NewIdentityRepositoryBuilder(
-	database database_application.Application,
-) identities.RepositoryBuilder {
-	hashAdapter := hash.NewAdapter()
-	builder := identities.NewBuilder()
-	return createIdentityRepositoryBuilder(hashAdapter, database, builder)
 }

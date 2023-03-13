@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/steve-care-software/blockchains/applications"
-	"github.com/steve-care-software/blockchains/domain/chains/genesis"
+	"github.com/steve-care-software/blockchains/domain/genesis"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
 	database_application "github.com/steve-care-software/databases/applications"
 )

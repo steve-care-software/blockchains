@@ -3,7 +3,7 @@ package databases
 import (
 	"encoding/json"
 
-	"github.com/steve-care-software/blockchains/domain/chains/transactions"
+	"github.com/steve-care-software/blockchains/domain/transactions"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"

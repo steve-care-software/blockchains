@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	"github.com/steve-care-software/blockchains/applications"
-	"github.com/steve-care-software/blockchains/domain/chains"
-	"github.com/steve-care-software/blockchains/domain/chains/blocks"
-	"github.com/steve-care-software/blockchains/domain/chains/genesis"
+	chains "github.com/steve-care-software/blockchains/domain"
+	"github.com/steve-care-software/blockchains/domain/blocks"
+	"github.com/steve-care-software/blockchains/domain/genesis"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"

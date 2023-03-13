@@ -1,8 +1,8 @@
 package wallets
 
 import (
-	"github.com/steve-care-software/blockchains/domain/chains"
-	"github.com/steve-care-software/blockchains/domain/chains/wallets"
+	chains "github.com/steve-care-software/blockchains/domain"
+	"github.com/steve-care-software/blockchains/domain/wallets"
 )
 
 // Builder represents the wallet's application builder

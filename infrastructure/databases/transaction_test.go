@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/steve-care-software/blockchains/applications"
-	"github.com/steve-care-software/blockchains/domain/chains/transactions"
+	"github.com/steve-care-software/blockchains/domain/transactions"
 	"github.com/steve-care-software/databases/infrastructure/files"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
