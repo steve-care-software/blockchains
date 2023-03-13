@@ -31,10 +31,10 @@ func NewTransactionServiceBuilder(
 // NewTransactionRepositoryBuilder creates a new transaction repository builder
 func NewTransactionRepositoryBuilder(
 	database database_application.Application,
+	trxBuilder transactions.TransactionBuilder,
 ) transactions.RepositoryBuilder {
 	hashAdapter := hash.NewAdapter()
 	builder := transactions.NewBuilder()
-	trxBuilder := transactions.NewTransactionBuilder()
 	bodyBuilder := transactions.NewBodyBuilder()
 	return createTransactionRepositoryBuilder(
 		hashAdapter,

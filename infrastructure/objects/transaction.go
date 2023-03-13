@@ -4,6 +4,7 @@ package objects
 type Transaction struct {
 	Body      *TransactionBody `json:"body"`
 	Signature []byte           `json:"signature"`
+	PublicKey []byte           `json:"pubkey"`
 }
 
 // TransactionBody represents a transaction body

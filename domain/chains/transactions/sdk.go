@@ -85,7 +85,7 @@ type RepositoryBuilder interface {
 
 // Repository represents a transaction repository
 type Repository interface {
-	List() ([]hash.Hash, error)
+	List() []hash.Hash
 	Retrieve(hash hash.Hash) (Transaction, error)
 	RetrieveList(hashes []hash.Hash) (Transactions, error)
 }
@@ -102,4 +102,6 @@ type ServiceBuilder interface {
 type Service interface {
 	Insert(trx Transaction) error
 	InsertList(list []Transaction) error
+	Erase(hash hash.Hash) error
+	EraseAll(hashes []hash.Hash) error
 }

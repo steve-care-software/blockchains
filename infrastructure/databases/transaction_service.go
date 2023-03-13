@@ -8,6 +8,7 @@ import (
 	"github.com/steve-care-software/blockchains/domain/chains/transactions"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
 	database_application "github.com/steve-care-software/databases/applications"
+	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
 type transactionService struct {
@@ -50,6 +51,7 @@ func (app *transactionService) Insert(trx transactions.Transaction) error {
 			Reference: body.Reference().Bytes(),
 		},
 		Signature: trx.Signature(),
+		PublicKey: trx.PublicKey(),
 	}
 
 	js, err := json.Marshal(ins)
@@ -75,4 +77,14 @@ func (app *transactionService) InsertList(list []transactions.Transaction) error
 	}
 
 	return nil
+}
+
+// Erase erases a transaction by hash
+func (app *transactionService) Erase(hash hash.Hash) error {
+	return app.database.EraseByHash(app.context, hash)
+}
+
+// EraseAll erases a list of transactions by hashes
+func (app *transactionService) EraseAll(hashes []hash.Hash) error {
+	return app.database.EraseAllByHashes(app.context, hashes)
 }

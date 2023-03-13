@@ -42,10 +42,10 @@ func createTransactionRepository(
 }
 
 // List returns the transaction list
-func (app *transactionRepository) List() ([]hash.Hash, error) {
+func (app *transactionRepository) List() []hash.Hash {
 	contentKeys, err := app.database.ContentKeysByKind(app.context, app.kind)
 	if err != nil {
-		return nil, err
+		return []hash.Hash{}
 	}
 
 	hashes := []hash.Hash{}
@@ -54,7 +54,7 @@ func (app *transactionRepository) List() ([]hash.Hash, error) {
 		hashes = append(hashes, oneKey.Hash())
 	}
 
-	return hashes, nil
+	return hashes
 }
 
 // Retrieve returns transaction by hash
@@ -93,6 +93,7 @@ func (app *transactionRepository) Retrieve(trxHash hash.Hash) (transactions.Tran
 	return app.trxBuilder.Create().
 		WithBody(body).
 		WithSignature(ins.Signature).
+		WithPublicKey(ins.PublicKey).
 		Now()
 }
 
