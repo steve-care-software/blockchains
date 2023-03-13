@@ -43,17 +43,11 @@ func (app *transactionService) Insert(trx transactions.Transaction) error {
 	}
 
 	body := trx.Body()
-	scripts := body.Scripts()
-	scriptBytes := [][]byte{}
-	for _, oneHash := range scripts {
-		scriptBytes = append(scriptBytes, oneHash.Bytes())
-	}
-
 	ins := objects.Transaction{
 		Body: &objects.TransactionBody{
-			Address: body.Address(),
-			Fees:    body.Fees(),
-			Scripts: scriptBytes,
+			Address:   body.Address().Bytes(),
+			Fees:      body.Fees(),
+			Reference: body.Reference().Bytes(),
 		},
 		Signature: trx.Signature(),
 	}

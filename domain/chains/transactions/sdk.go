@@ -2,6 +2,9 @@ package transactions
 
 import "github.com/steve-care-software/libs/cryptography/hash"
 
+// VerifySignatureFn represents a verify signature func
+type VerifySignatureFn func(pubKey []byte, signature []byte, hash hash.Hash) bool
+
 // NewBuilder creates a new builder instance
 func NewBuilder() Builder {
 	hashAdapter := hash.NewAdapter()
@@ -9,9 +12,14 @@ func NewBuilder() Builder {
 }
 
 // NewTransactionBuilder creates a new transaction builder
-func NewTransactionBuilder() TransactionBuilder {
+func NewTransactionBuilder(
+	verifySigFn VerifySignatureFn,
+) TransactionBuilder {
 	hashAdapter := hash.NewAdapter()
-	return createTransactionBuilder(hashAdapter)
+	return createTransactionBuilder(
+		verifySigFn,
+		hashAdapter,
+	)
 }
 
 // NewBodyBuilder creates a new body builder instance
@@ -38,6 +46,7 @@ type TransactionBuilder interface {
 	Create() TransactionBuilder
 	WithBody(body Body) TransactionBuilder
 	WithSignature(signature []byte) TransactionBuilder
+	WithPublicKey(pubKey []byte) TransactionBuilder
 	Now() (Transaction, error)
 }
 
@@ -45,24 +54,25 @@ type TransactionBuilder interface {
 type Transaction interface {
 	Hash() hash.Hash
 	Body() Body
+	PublicKey() []byte
 	Signature() []byte
 }
 
 // BodyBuilder represents a body builder
 type BodyBuilder interface {
 	Create() BodyBuilder
-	WithAddress(address []byte) BodyBuilder
+	WithAddress(address hash.Hash) BodyBuilder
 	WithFees(fees uint) BodyBuilder
-	WithScripts(scripts []hash.Hash) BodyBuilder
+	WithReference(reference hash.Hash) BodyBuilder
 	Now() (Body, error)
 }
 
 // Body represents the transaction body
 type Body interface {
 	Hash() hash.Hash
-	Address() []byte
+	Address() hash.Hash
 	Fees() uint
-	Scripts() []hash.Hash
+	Reference() hash.Hash
 }
 
 // RepositoryBuilder represents a repository builder

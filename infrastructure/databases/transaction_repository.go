@@ -70,20 +70,20 @@ func (app *transactionRepository) Retrieve(trxHash hash.Hash) (transactions.Tran
 		return nil, err
 	}
 
-	scripts := []hash.Hash{}
-	for _, oneScriptBytes := range ins.Body.Scripts {
-		pHash, err := app.hashAdapter.FromBytes(oneScriptBytes)
-		if err != nil {
-			return nil, err
-		}
+	pReferenceHash, err := app.hashAdapter.FromBytes(ins.Body.Reference)
+	if err != nil {
+		return nil, err
+	}
 
-		scripts = append(scripts, *pHash)
+	pAddressHash, err := app.hashAdapter.FromBytes(ins.Body.Address)
+	if err != nil {
+		return nil, err
 	}
 
 	body, err := app.bodyBuilder.Create().
-		WithAddress(ins.Body.Address).
+		WithAddress(*pAddressHash).
 		WithFees(ins.Body.Fees).
-		WithScripts(scripts).
+		WithReference(*pReferenceHash).
 		Now()
 
 	if err != nil {

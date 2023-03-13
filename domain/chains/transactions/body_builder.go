@@ -9,9 +9,9 @@ import (
 
 type bodyBuilder struct {
 	hashAdapter hash.Adapter
-	address     []byte
+	address     hash.Hash
 	pFees       *uint
-	scripts     []hash.Hash
+	reference   hash.Hash
 }
 
 func createBodyBuilder(
@@ -21,7 +21,7 @@ func createBodyBuilder(
 		hashAdapter: hashAdapter,
 		address:     nil,
 		pFees:       nil,
-		scripts:     nil,
+		reference:   nil,
 	}
 
 	return &out
@@ -33,7 +33,7 @@ func (app *bodyBuilder) Create() BodyBuilder {
 }
 
 // WithAddress adds an address to the builder
-func (app *bodyBuilder) WithAddress(address []byte) BodyBuilder {
+func (app *bodyBuilder) WithAddress(address hash.Hash) BodyBuilder {
 	app.address = address
 	return app
 }
@@ -44,47 +44,35 @@ func (app *bodyBuilder) WithFees(fees uint) BodyBuilder {
 	return app
 }
 
-// WithScripts add scripts to the builder
-func (app *bodyBuilder) WithScripts(scripts []hash.Hash) BodyBuilder {
-	app.scripts = scripts
+// WithReference add reference to the builder
+func (app *bodyBuilder) WithReference(reference hash.Hash) BodyBuilder {
+	app.reference = reference
 	return app
 }
 
 // Now builds a new Body instance
 func (app *bodyBuilder) Now() (Body, error) {
-	if app.address != nil && len(app.address) <= 0 {
-		app.address = nil
-	}
-
 	if app.address == nil {
 		return nil, errors.New("the address is mandatory in order to build a transaction's Body instance")
 	}
 
-	if app.scripts != nil && len(app.scripts) <= 0 {
-		app.scripts = nil
-	}
-
-	if app.scripts == nil {
-		return nil, errors.New("the scripts are mandatory in order to build a transaction's Body instance")
+	if app.reference == nil {
+		return nil, errors.New("the reference are mandatory in order to build a transaction's Body instance")
 	}
 
 	if app.pFees == nil {
 		return nil, errors.New("the fees is mandatory in order to build a transaction's Body instance")
 	}
 
-	data := [][]byte{
-		app.address,
-		[]byte(fmt.Sprintf("%d", *app.pFees)),
-	}
+	pHash, err := app.hashAdapter.FromMultiBytes([][]byte{
+		app.address.Bytes(),
+		app.reference.Bytes(),
+		hash.Hash(fmt.Sprintf("%d", *app.pFees)),
+	})
 
-	for _, oneScript := range app.scripts {
-		data = append(data, oneScript.Bytes())
-	}
-
-	pHash, err := app.hashAdapter.FromMultiBytes(data)
 	if err != nil {
 		return nil, err
 	}
 
-	return createBody(*pHash, app.address, *app.pFees, app.scripts), nil
+	return createBody(*pHash, app.address, *app.pFees, app.reference), nil
 }

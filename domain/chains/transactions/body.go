@@ -3,23 +3,23 @@ package transactions
 import "github.com/steve-care-software/libs/cryptography/hash"
 
 type body struct {
-	hash    hash.Hash
-	address []byte
-	fees    uint
-	scripts []hash.Hash
+	hash      hash.Hash
+	address   hash.Hash
+	fees      uint
+	reference hash.Hash
 }
 
 func createBody(
 	hash hash.Hash,
-	address []byte,
+	address hash.Hash,
 	fees uint,
-	scripts []hash.Hash,
+	reference hash.Hash,
 ) Body {
 	out := body{
-		hash:    hash,
-		address: address,
-		fees:    fees,
-		scripts: scripts,
+		hash:      hash,
+		address:   address,
+		fees:      fees,
+		reference: reference,
 	}
 
 	return &out
@@ -31,7 +31,7 @@ func (obj *body) Hash() hash.Hash {
 }
 
 // Address returns the address
-func (obj *body) Address() []byte {
+func (obj *body) Address() hash.Hash {
 	return obj.address
 }
 
@@ -40,7 +40,7 @@ func (obj *body) Fees() uint {
 	return obj.fees
 }
 
-// Scripts returns the scripts
-func (obj *body) Scripts() []hash.Hash {
-	return obj.scripts
+// Reference returns the reference
+func (obj *body) Reference() hash.Hash {
+	return obj.reference
 }

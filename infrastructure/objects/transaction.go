@@ -8,7 +8,7 @@ type Transaction struct {
 
 // TransactionBody represents a transaction body
 type TransactionBody struct {
-	Address []byte   `json:"address"`
-	Fees    uint     `json:"fees"`
-	Scripts [][]byte `json:"scripts"`
+	Address   []byte `json:"address"`
+	Fees      uint   `json:"fees"`
+	Reference []byte `json:"reference"`
 }
