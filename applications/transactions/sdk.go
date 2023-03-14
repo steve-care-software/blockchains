@@ -6,11 +6,11 @@ import (
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
-// EnterOnTrxFn represents the enter's onTrx func
-type EnterOnTrxFn func(trx transactions.Transaction) error
+// EnterOnCreateTransactionFn represents the enter's onCreate trx func
+type EnterOnCreateTransactionFn func(body transactions.Body) (transactions.Transaction, error)
 
-// ExitOnTrxFn represents the exit's onTrx func
-type ExitOnTrxFn func(trx transactions.Transaction) error
+// ExitOnCreateTransactionFn represents the exit's onCreate trx func
+type ExitOnCreateTransactionFn func(trx transactions.Transaction) error
 
 // Builder represents the transaction's application builder
 type Builder interface {
