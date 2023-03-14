@@ -3,7 +3,6 @@ package blocks
 import (
 	chains "github.com/steve-care-software/blockchains/domain"
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/transactions"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
@@ -23,6 +22,6 @@ type Builder interface {
 // Application represents the block application
 type Application interface {
 	List() ([]hash.Hash, error)
-	Mine(trx transactions.Transactions) error
+	Insert(block blocks.Block) error
 	Retrieve(hash hash.Hash) (blocks.Block, error)
 }
