@@ -4,11 +4,12 @@ import (
 	"errors"
 
 	"github.com/steve-care-software/blockchains/domain/blocks"
+	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
 type builder struct {
 	name string
-	root []byte
+	root hash.Hash
 	head blocks.Block
 }
 
@@ -34,7 +35,7 @@ func (app *builder) WithName(name string) Builder {
 }
 
 // WithRoot adds a root to the builder
-func (app *builder) WithRoot(root []byte) Builder {
+func (app *builder) WithRoot(root hash.Hash) Builder {
 	app.root = root
 	return app
 }

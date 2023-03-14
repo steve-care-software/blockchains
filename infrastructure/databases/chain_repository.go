@@ -79,7 +79,12 @@ func (app *chainRepository) Retrieve(name string) (chains.Chain, error) {
 		return nil, err
 	}
 
-	builder := app.builder.Create().WithName(ins.Name).WithRoot(ins.Root)
+	pRootHash, err := app.hashAdapter.FromBytes(ins.Root)
+	if err != nil {
+		return nil, err
+	}
+
+	builder := app.builder.Create().WithName(ins.Name).WithRoot(*pRootHash)
 	if ins.Head != nil {
 		pBlockHash, err := app.hashAdapter.FromBytes(ins.Head)
 		if err != nil {

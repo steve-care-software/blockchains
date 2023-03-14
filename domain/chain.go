@@ -2,24 +2,25 @@ package domain
 
 import (
 	"github.com/steve-care-software/blockchains/domain/blocks"
+	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
 type chain struct {
 	name string
-	root []byte
+	root hash.Hash
 	head blocks.Block
 }
 
 func createChain(
 	name string,
-	root []byte,
+	root hash.Hash,
 ) Chain {
 	return createChainInternally(name, root, nil)
 }
 
 func createChainWithHead(
 	name string,
-	root []byte,
+	root hash.Hash,
 	head blocks.Block,
 ) Chain {
 	return createChainInternally(name, root, head)
@@ -27,7 +28,7 @@ func createChainWithHead(
 
 func createChainInternally(
 	name string,
-	root []byte,
+	root hash.Hash,
 	head blocks.Block,
 ) Chain {
 	out := chain{
@@ -45,7 +46,7 @@ func (obj *chain) Name() string {
 }
 
 // Root returns the root
-func (obj *chain) Root() []byte {
+func (obj *chain) Root() hash.Hash {
 	return obj.root
 }
 

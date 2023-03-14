@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/steve-care-software/blockchains/domain/blocks"
+	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
 // NewBuilder creates a new builder instance
@@ -13,7 +14,7 @@ func NewBuilder() Builder {
 type Builder interface {
 	Create() Builder
 	WithName(name string) Builder
-	WithRoot(root []byte) Builder
+	WithRoot(root hash.Hash) Builder
 	WithHead(head blocks.Block) Builder
 	Now() (Chain, error)
 }
@@ -21,7 +22,7 @@ type Builder interface {
 // Chain represents a chain
 type Chain interface {
 	Name() string
-	Root() []byte
+	Root() hash.Hash
 	HasHead() bool
 	Head() blocks.Block
 }
