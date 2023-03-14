@@ -5,42 +5,37 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/steve-care-software/blockchains/applications"
 	chains "github.com/steve-care-software/blockchains/domain"
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/genesis"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
 type chainService struct {
-	hashAdapter       hash.Adapter
-	repository        chains.Repository
-	blockRepository   blocks.Repository
-	genesisRepository genesis.Repository
-	genesisService    genesis.Service
-	database          database_application.Application
-	context           uint
+	hashAdapter     hash.Adapter
+	repository      chains.Repository
+	blockRepository blocks.Repository
+	database        database_application.Application
+	context         uint
+	kind            uint
 }
 
 func createChainService(
 	hashAdapter hash.Adapter,
 	repository chains.Repository,
 	blockRepository blocks.Repository,
-	genesisRepository genesis.Repository,
-	genesisService genesis.Service,
 	database database_application.Application,
 	context uint,
+	kind uint,
 ) chains.Service {
 	out := chainService{
-		hashAdapter:       hashAdapter,
-		repository:        repository,
-		blockRepository:   blockRepository,
-		genesisRepository: genesisRepository,
-		genesisService:    genesisService,
-		database:          database,
-		context:           context,
+		hashAdapter:     hashAdapter,
+		repository:      repository,
+		blockRepository: blockRepository,
+		database:        database,
+		context:         context,
+		kind:            kind,
 	}
 
 	return &out
@@ -53,21 +48,6 @@ func (app *chainService) Insert(chain chains.Chain) error {
 	if err == nil {
 		str := fmt.Sprintf("the Chain (name: %s) already exists", name)
 		return errors.New(str)
-	}
-
-	if !chain.HasHead() {
-		genesis := chain.Root()
-		genesisHash := genesis.Hash()
-		_, err = app.genesisRepository.Retrieve(genesisHash)
-		if err == nil {
-			str := fmt.Sprintf("the chain (name: %s) cannot be inserted because it contains a root genesis (hash: %s) that already exists", name, genesisHash.String())
-			return errors.New(str)
-		}
-
-		err = app.genesisService.Insert(genesis)
-		if err != nil {
-			return err
-		}
 	}
 
 	var headBytes []byte
@@ -84,7 +64,7 @@ func (app *chainService) Insert(chain chains.Chain) error {
 
 	ins := objects.Chain{
 		Name: chain.Name(),
-		Root: chain.Root().Hash().Bytes(),
+		Root: chain.Root(),
 		Head: headBytes,
 	}
 
@@ -100,7 +80,7 @@ func (app *chainService) Insert(chain chains.Chain) error {
 
 	return app.database.Write(
 		app.context,
-		applications.KindChain,
+		app.kind,
 		*pHash,
 		js,
 	)

@@ -2,7 +2,6 @@ package domain
 
 import (
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/genesis"
 )
 
 // NewBuilder creates a new builder instance
@@ -14,7 +13,7 @@ func NewBuilder() Builder {
 type Builder interface {
 	Create() Builder
 	WithName(name string) Builder
-	WithRoot(root genesis.Genesis) Builder
+	WithRoot(root []byte) Builder
 	WithHead(head blocks.Block) Builder
 	Now() (Chain, error)
 }
@@ -22,7 +21,7 @@ type Builder interface {
 // Chain represents a chain
 type Chain interface {
 	Name() string
-	Root() genesis.Genesis
+	Root() []byte
 	HasHead() bool
 	Head() blocks.Block
 }
@@ -31,6 +30,8 @@ type Chain interface {
 type RepositoryBuilder interface {
 	Create() RepositoryBuilder
 	WithContext(context uint) RepositoryBuilder
+	WithBlockKind(blockKind uint) RepositoryBuilder
+	WithKind(kind uint) RepositoryBuilder
 	Now() (Repository, error)
 }
 
@@ -44,6 +45,7 @@ type Repository interface {
 type ServiceBuilder interface {
 	Create() ServiceBuilder
 	WithContext(context uint) ServiceBuilder
+	WithKind(kind uint) ServiceBuilder
 	Now() (Service, error)
 }
 

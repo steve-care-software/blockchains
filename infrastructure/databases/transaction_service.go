@@ -81,10 +81,10 @@ func (app *transactionService) InsertList(list []transactions.Transaction) error
 
 // Erase erases a transaction by hash
 func (app *transactionService) Erase(hash hash.Hash) error {
-	return app.database.EraseByHash(app.context, hash)
+	return app.database.EraseByHash(app.context, app.kind, hash)
 }
 
 // EraseAll erases a list of transactions by hashes
 func (app *transactionService) EraseAll(hashes []hash.Hash) error {
-	return app.database.EraseAllByHashes(app.context, hashes)
+	return app.database.EraseAllByHashes(app.context, app.kind, hashes)
 }

@@ -1,27 +1,18 @@
 package applications
 
 import (
-	"github.com/steve-care-software/blockchains/applications/chains"
+	"github.com/steve-care-software/blockchains/applications/blocks"
+	"github.com/steve-care-software/blockchains/applications/peers"
+	"github.com/steve-care-software/blockchains/applications/transactions"
+	chains "github.com/steve-care-software/blockchains/domain"
 )
 
-const (
-	// KindIdentities represents an identities kind
-	KindIdentities (uint) = iota
-
-	// KindGenesis represents a genesis kind
-	KindGenesis
-
-	// KindBlock represents a block kind
-	KindBlock
-
-	// KindChain represents a chain kind
-	KindChain
-
-	// KindTransaction represents a transaction kind
-	KindTransaction
-)
-
-// Application represents the blockchain application
+// Application represents the chain application
 type Application interface {
-	Chain() chains.Application
+	List() ([]string, error)
+	Insert(name string, root []byte) error
+	Retrieve(name string) (chains.Chain, error)
+	Block(chain chains.Chain) (blocks.Application, error)
+	Transaction(chain chains.Chain) (transactions.Application, error)
+	Peer(chain chains.Chain) (peers.Application, error)
 }

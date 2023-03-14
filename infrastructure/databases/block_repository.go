@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/steve-care-software/blockchains/applications"
 	"github.com/steve-care-software/blockchains/domain/blocks"
 	"github.com/steve-care-software/blockchains/domain/transactions"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
@@ -19,6 +18,7 @@ type blockRepository struct {
 	builder       blocks.Builder
 	bodyBuilder   blocks.BodyBuilder
 	context       uint
+	kind          uint
 }
 
 func createBlockRepository(
@@ -28,6 +28,7 @@ func createBlockRepository(
 	builder blocks.Builder,
 	bodyBuilder blocks.BodyBuilder,
 	context uint,
+	kind uint,
 ) blocks.Repository {
 	out := blockRepository{
 		hashAdapter:   hashAdapter,
@@ -36,6 +37,7 @@ func createBlockRepository(
 		builder:       builder,
 		bodyBuilder:   bodyBuilder,
 		context:       context,
+		kind:          kind,
 	}
 
 	return &out
@@ -43,7 +45,7 @@ func createBlockRepository(
 
 // List returns the list of blocks
 func (app *blockRepository) List() ([]hash.Hash, error) {
-	contentKeys, err := app.database.ContentKeysByKind(app.context, applications.KindBlock)
+	contentKeys, err := app.database.ContentKeysByKind(app.context, app.kind)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +61,7 @@ func (app *blockRepository) List() ([]hash.Hash, error) {
 
 // Retrieve retrieves a block by hash
 func (app *blockRepository) Retrieve(blockHash hash.Hash) (blocks.Block, error) {
-	js, err := app.database.ReadByHash(app.context, blockHash)
+	js, err := app.database.ReadByHash(app.context, app.kind, blockHash)
 	if err != nil {
 		return nil, err
 	}

@@ -4,12 +4,11 @@ import (
 	"errors"
 
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/genesis"
 )
 
 type builder struct {
 	name string
-	root genesis.Genesis
+	root []byte
 	head blocks.Block
 }
 
@@ -35,7 +34,7 @@ func (app *builder) WithName(name string) Builder {
 }
 
 // WithRoot adds a root to the builder
-func (app *builder) WithRoot(root genesis.Genesis) Builder {
+func (app *builder) WithRoot(root []byte) Builder {
 	app.root = root
 	return app
 }

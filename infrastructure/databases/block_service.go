@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/steve-care-software/blockchains/applications"
 	"github.com/steve-care-software/blockchains/domain/blocks"
 	"github.com/steve-care-software/blockchains/domain/transactions"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
@@ -17,6 +16,7 @@ type blockService struct {
 	repository blocks.Repository
 	trxService transactions.Service
 	context    uint
+	kind       uint
 }
 
 func createBlockService(
@@ -24,12 +24,14 @@ func createBlockService(
 	repository blocks.Repository,
 	trxService transactions.Service,
 	context uint,
+	kind uint,
 ) blocks.Service {
 	out := blockService{
 		database:   database,
 		repository: repository,
 		trxService: trxService,
 		context:    context,
+		kind:       kind,
 	}
 
 	return &out
@@ -67,7 +69,7 @@ func (app *blockService) Insert(block blocks.Block) error {
 
 	return app.database.Write(
 		app.context,
-		applications.KindBlock,
+		app.kind,
 		hash,
 		js,
 	)

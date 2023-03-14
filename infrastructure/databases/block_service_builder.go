@@ -13,6 +13,7 @@ type blockServiceBuilder struct {
 	repository blocks.Repository
 	trxService transactions.Service
 	pContext   *uint
+	pKind      *uint
 }
 
 func createBlockServiceBuilder(
@@ -25,6 +26,7 @@ func createBlockServiceBuilder(
 		repository: repository,
 		trxService: trxService,
 		pContext:   nil,
+		pKind:      nil,
 	}
 
 	return &out
@@ -45,10 +47,20 @@ func (app *blockServiceBuilder) WithContext(context uint) blocks.ServiceBuilder 
 	return app
 }
 
+// WithKind adds a context to the builder
+func (app *blockServiceBuilder) WithKind(kind uint) blocks.ServiceBuilder {
+	app.pKind = &kind
+	return app
+}
+
 // Now builds a new Service instance
 func (app *blockServiceBuilder) Now() (blocks.Service, error) {
 	if app.pContext == nil {
 		return nil, errors.New("the context is mandatory in order to build a block Service instance")
+	}
+
+	if app.pKind == nil {
+		return nil, errors.New("the kind is mandatory in order to build a block Service instance")
 	}
 
 	return createBlockService(
@@ -56,5 +68,6 @@ func (app *blockServiceBuilder) Now() (blocks.Service, error) {
 		app.repository,
 		app.trxService,
 		*app.pContext,
+		*app.pKind,
 	), nil
 }

@@ -6,36 +6,35 @@ import (
 
 	chains "github.com/steve-care-software/blockchains/domain"
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/genesis"
 	"github.com/steve-care-software/blockchains/infrastructure/objects"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
 
 type chainRepository struct {
-	hashAdapter       hash.Adapter
-	genesisRepository genesis.Repository
-	blockRepository   blocks.Repository
-	database          database_application.Application
-	builder           chains.Builder
-	context           uint
+	hashAdapter     hash.Adapter
+	blockRepository blocks.Repository
+	database        database_application.Application
+	builder         chains.Builder
+	context         uint
+	kind            uint
 }
 
 func createChainRepository(
 	hashAdapter hash.Adapter,
-	genesisRepository genesis.Repository,
 	blockRepository blocks.Repository,
 	database database_application.Application,
 	builder chains.Builder,
 	context uint,
+	kind uint,
 ) chains.Repository {
 	out := chainRepository{
-		hashAdapter:       hashAdapter,
-		genesisRepository: genesisRepository,
-		blockRepository:   blockRepository,
-		database:          database,
-		builder:           builder,
-		context:           context,
+		hashAdapter:     hashAdapter,
+		blockRepository: blockRepository,
+		database:        database,
+		builder:         builder,
+		context:         context,
+		kind:            kind,
 	}
 
 	return &out
@@ -48,7 +47,7 @@ func (app *chainRepository) List() ([]string, error) {
 		return nil, err
 	}
 
-	js, err := app.database.ReadByHash(app.context, *pHash)
+	js, err := app.database.ReadByHash(app.context, app.kind, *pHash)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +68,7 @@ func (app *chainRepository) Retrieve(name string) (chains.Chain, error) {
 		return nil, err
 	}
 
-	js, err := app.database.ReadByHash(app.context, *pHash)
+	js, err := app.database.ReadByHash(app.context, app.kind, *pHash)
 	if err != nil {
 		return nil, err
 	}
@@ -80,17 +79,7 @@ func (app *chainRepository) Retrieve(name string) (chains.Chain, error) {
 		return nil, err
 	}
 
-	pGenesisHash, err := app.hashAdapter.FromBytes(ins.Root)
-	if err != nil {
-		return nil, err
-	}
-
-	genesis, err := app.genesisRepository.Retrieve(*pGenesisHash)
-	if err != nil {
-		return nil, err
-	}
-
-	builder := app.builder.Create().WithName(ins.Name).WithRoot(genesis)
+	builder := app.builder.Create().WithName(ins.Name).WithRoot(ins.Root)
 	if ins.Head != nil {
 		pBlockHash, err := app.hashAdapter.FromBytes(ins.Head)
 		if err != nil {

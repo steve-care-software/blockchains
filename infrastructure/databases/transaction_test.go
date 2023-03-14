@@ -4,11 +4,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/steve-care-software/blockchains/applications"
 	"github.com/steve-care-software/blockchains/domain/transactions"
 	"github.com/steve-care-software/databases/infrastructure/files"
 	"github.com/steve-care-software/libs/cryptography/hash"
 )
+
+const trxKindForTests = 0
 
 func TestTransaction_repositoryAndService_Success(t *testing.T) {
 	dirPath := "./test_files"
@@ -40,14 +41,14 @@ func TestTransaction_repositoryAndService_Success(t *testing.T) {
 		return true
 	}))
 
-	repository, err := repositoryBuilder.Create().WithContext(*pContext).WithKind(applications.KindTransaction).Now()
+	repository, err := repositoryBuilder.Create().WithContext(*pContext).WithKind(trxKindForTests).Now()
 	if err != nil {
 		t.Errorf("the error was expected to be nil, error returned: %s", err.Error())
 		return
 	}
 
 	// create service:
-	service, err := NewTransactionServiceBuilder(dbApp, repositoryBuilder).Create().WithContext(*pContext).WithKind(applications.KindTransaction).Now()
+	service, err := NewTransactionServiceBuilder(dbApp, repositoryBuilder).Create().WithContext(*pContext).WithKind(trxKindForTests).Now()
 	if err != nil {
 		t.Errorf("the error was expected to be nil, error returned: %s", err.Error())
 		return
@@ -180,7 +181,7 @@ func TestTransaction_repositoryAndService_insertsDuplicate_ReturnsError(t *testi
 	}))
 
 	// create service:
-	service, err := NewTransactionServiceBuilder(dbApp, repositoryBuilder).Create().WithContext(*pContext).WithKind(applications.KindTransaction).Now()
+	service, err := NewTransactionServiceBuilder(dbApp, repositoryBuilder).Create().WithContext(*pContext).WithKind(trxKindForTests).Now()
 	if err != nil {
 		t.Errorf("the error was expected to be nil, error returned: %s", err.Error())
 		return

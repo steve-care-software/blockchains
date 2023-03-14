@@ -16,6 +16,7 @@ type blockRepositoryBuilder struct {
 	builder              blocks.Builder
 	bodyBuilder          blocks.BodyBuilder
 	pContext             *uint
+	pKind                *uint
 }
 
 func createBlockRepositoryBuilder(
@@ -32,6 +33,7 @@ func createBlockRepositoryBuilder(
 		builder:              builder,
 		bodyBuilder:          bodyBuilder,
 		pContext:             nil,
+		pKind:                nil,
 	}
 
 	return &out
@@ -54,13 +56,23 @@ func (app *blockRepositoryBuilder) WithContext(context uint) blocks.RepositoryBu
 	return app
 }
 
+// WithKind adds a kind to the builder
+func (app *blockRepositoryBuilder) WithKind(kind uint) blocks.RepositoryBuilder {
+	app.pKind = &kind
+	return app
+}
+
 // Now builds a new Repository instance
 func (app *blockRepositoryBuilder) Now() (blocks.Repository, error) {
 	if app.pContext == nil {
 		return nil, errors.New("the context is mandatory in order to build a block Repository instance")
 	}
 
-	trxRepository, err := app.trxRepositoryBuilder.Create().WithContext(*app.pContext).Now()
+	if app.pKind == nil {
+		return nil, errors.New("the kind is mandatory in order to build a block Repository instance")
+	}
+
+	trxRepository, err := app.trxRepositoryBuilder.Create().WithContext(*app.pContext).WithKind(*app.pKind).Now()
 	if err != nil {
 		return nil, err
 	}
@@ -72,5 +84,6 @@ func (app *blockRepositoryBuilder) Now() (blocks.Repository, error) {
 		app.builder,
 		app.bodyBuilder,
 		*app.pContext,
+		*app.pKind,
 	), nil
 }

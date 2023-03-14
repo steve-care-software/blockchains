@@ -2,25 +2,24 @@ package domain
 
 import (
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/genesis"
 )
 
 type chain struct {
 	name string
-	root genesis.Genesis
+	root []byte
 	head blocks.Block
 }
 
 func createChain(
 	name string,
-	root genesis.Genesis,
+	root []byte,
 ) Chain {
 	return createChainInternally(name, root, nil)
 }
 
 func createChainWithHead(
 	name string,
-	root genesis.Genesis,
+	root []byte,
 	head blocks.Block,
 ) Chain {
 	return createChainInternally(name, root, head)
@@ -28,7 +27,7 @@ func createChainWithHead(
 
 func createChainInternally(
 	name string,
-	root genesis.Genesis,
+	root []byte,
 	head blocks.Block,
 ) Chain {
 	out := chain{
@@ -46,7 +45,7 @@ func (obj *chain) Name() string {
 }
 
 // Root returns the root
-func (obj *chain) Root() genesis.Genesis {
+func (obj *chain) Root() []byte {
 	return obj.root
 }
 

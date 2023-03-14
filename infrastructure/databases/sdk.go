@@ -3,7 +3,6 @@ package databases
 import (
 	chains "github.com/steve-care-software/blockchains/domain"
 	"github.com/steve-care-software/blockchains/domain/blocks"
-	"github.com/steve-care-software/blockchains/domain/genesis"
 	"github.com/steve-care-software/blockchains/domain/transactions"
 	database_application "github.com/steve-care-software/databases/applications"
 	"github.com/steve-care-software/libs/cryptography/hash"
@@ -47,8 +46,6 @@ func NewTransactionRepositoryBuilder(
 func NewChainServiceBuilder(
 	repositoryBuilder chains.RepositoryBuilder,
 	blockRepositoryBuilder blocks.RepositoryBuilder,
-	genesisRepositoryBuilder genesis.RepositoryBuilder,
-	genesisServiceBuilder genesis.ServiceBuilder,
 	database database_application.Application,
 ) chains.ServiceBuilder {
 	hashAdapter := hash.NewAdapter()
@@ -56,15 +53,12 @@ func NewChainServiceBuilder(
 		hashAdapter,
 		repositoryBuilder,
 		blockRepositoryBuilder,
-		genesisRepositoryBuilder,
-		genesisServiceBuilder,
 		database,
 	)
 }
 
 // NewChainRepositoryBuilder creates a new chain repository builder
 func NewChainRepositoryBuilder(
-	genesisRepositoryBuilder genesis.RepositoryBuilder,
 	blockRepositoryBuilder blocks.RepositoryBuilder,
 	database database_application.Application,
 ) chains.RepositoryBuilder {
@@ -72,7 +66,6 @@ func NewChainRepositoryBuilder(
 	builder := chains.NewBuilder()
 	return createChainRepositoryBuilder(
 		hashAdapter,
-		genesisRepositoryBuilder,
 		blockRepositoryBuilder,
 		database,
 		builder,
@@ -107,20 +100,4 @@ func NewBlockRepositoryBuilder(
 		builder,
 		bodyBuilder,
 	)
-}
-
-// NewGenesisServiceBuilder creates a new genesis service builder
-func NewGenesisServiceBuilder(
-	database database_application.Application,
-	repositoryBuilder genesis.RepositoryBuilder,
-) genesis.ServiceBuilder {
-	return createGenesisServiceBuilder(database, repositoryBuilder)
-}
-
-// NewGenesisRepositoryBuilder creates a new genesis repository builder
-func NewGenesisRepositoryBuilder(
-	database database_application.Application,
-) genesis.RepositoryBuilder {
-	builder := genesis.NewBuilder()
-	return createGenesisRepositoryBuilder(database, builder)
 }

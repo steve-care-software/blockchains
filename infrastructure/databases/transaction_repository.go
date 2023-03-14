@@ -59,7 +59,7 @@ func (app *transactionRepository) List() []hash.Hash {
 
 // Retrieve returns transaction by hash
 func (app *transactionRepository) Retrieve(trxHash hash.Hash) (transactions.Transaction, error) {
-	js, err := app.database.ReadByHash(app.context, trxHash)
+	js, err := app.database.ReadByHash(app.context, app.kind, trxHash)
 	if err != nil {
 		return nil, err
 	}
