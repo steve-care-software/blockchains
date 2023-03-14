@@ -22,6 +22,6 @@ type Builder interface {
 // Application represents the block application
 type Application interface {
 	List() ([]hash.Hash, error)
-	Insert(block blocks.Block) error
+	Insert(body blocks.Body) error
 	Retrieve(hash hash.Hash) (blocks.Block, error)
 }

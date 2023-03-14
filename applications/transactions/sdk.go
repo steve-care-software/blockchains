@@ -22,7 +22,7 @@ type Builder interface {
 // Application represents a transaction application
 type Application interface {
 	List() ([]hash.Hash, error)
-	Insert(trx transactions.Transaction) error
-	InsertList(list []transactions.Transaction) error
+	Insert(trx transactions.Body) error
+	InsertList(list []transactions.Body) error
 	Retrieve(hash hash.Hash) (transactions.Transaction, error)
 }
